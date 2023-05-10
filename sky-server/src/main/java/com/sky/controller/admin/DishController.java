@@ -2,6 +2,7 @@ package com.sky.controller.admin;
 
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
+import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.DishService;
@@ -107,5 +108,18 @@ public class DishController {
     public Result<String> setStatus(@PathVariable Integer status, Long id) {
         dishService.setStatus(status, id);
         return Result.success();
+    }
+
+    /**
+     * 根据分类id查询菜品
+     * - 套餐管理添加菜品时中需要用此接口
+     *
+     * @param categoryId 菜品分类id
+     * @return Result<List<Dish>>
+     */
+    @GetMapping("/list")
+    @ApiOperation("根据分类id查询该分类下所有菜品")
+    public Result<List<Dish>> list(Long categoryId) {
+        return Result.success(dishService.list(categoryId));
     }
 }

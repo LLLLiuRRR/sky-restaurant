@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface DishMapper {
 
@@ -58,4 +60,12 @@ public interface DishMapper {
      */
     @Select("SELECT COUNT(id) FROM dish WHERE category_id = #{categoryId}")
     Integer countByCategoryId(Long categoryId);
+
+    /**
+     * 根据给定条件列出符合的菜品条目
+     *
+     * @param dish 菜品Entity
+     * @return List<Dish>
+     */
+    List<Dish> select(Dish dish);
 }

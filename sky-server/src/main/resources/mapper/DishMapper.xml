@@ -30,6 +30,21 @@
         ORDER BY d.create_time DESC
     </select>
 
+    <select id="select" resultType="com.sky.entity.Dish">
+        SELECT * FROM dish
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                AND category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
     <update id="update">
         UPDATE dish
         <set>

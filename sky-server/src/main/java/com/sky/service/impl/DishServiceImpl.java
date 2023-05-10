@@ -120,7 +120,7 @@ public class DishServiceImpl implements DishService {
     }
 
     /**
-     * 根据id查询菜品和口味
+     * 根据id查询菜品+口味
      *
      * @param id 菜品id
      * @return DishVO
@@ -176,6 +176,7 @@ public class DishServiceImpl implements DishService {
      * @param status 启停售状态
      * @param id     菜品id
      */
+    @Override
     public void setStatus(Integer status, Long id) {
         Dish dish = Dish.builder()
                 .id(id)
@@ -184,6 +185,21 @@ public class DishServiceImpl implements DishService {
                 .updateUser(BaseContext.getCurrentId())
                 .build();
         dishMapper.update(dish);
+    }
+
+    /**
+     * 根据分类id列出菜品
+     *
+     * @param categoryId 分类id
+     * @return List<Dish>
+     */
+    @Override
+    public List<Dish> list(Long categoryId) {
+        return dishMapper.select(
+                Dish.builder()
+                        .categoryId(categoryId)
+                        .build()
+        );
     }
 
 }

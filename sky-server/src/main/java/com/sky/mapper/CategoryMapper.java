@@ -40,6 +40,7 @@ public interface CategoryMapper {
 
     /**
      * 修改分类
+     * - 实体category那些属性非null，就更新哪些。主键id必须提供
      *
      * @param category
      */

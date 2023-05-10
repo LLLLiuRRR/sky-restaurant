@@ -100,4 +100,19 @@ public class CategoryController {
         List<Category> categoryList = categoryService.list(category);
         return Result.success(categoryList);
     }
+
+    /**
+     * 根据分类id启用/禁用分类
+     *
+     * @param status 状态：启用1，禁用0
+     * @param id 分类id
+     * @return Result
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("启用/禁用分类")
+    public Result toggleStatus(@PathVariable Integer status, Long id) {
+        log.info("|> 调整分类:" + id + " 的启/禁用状态:" + status);
+        categoryService.toggleStatus(status, id);
+        return Result.success();
+    }
 }

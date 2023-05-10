@@ -2,7 +2,6 @@
 server:
   port: 8080 #SpringBoot内置Tomcat服务器端口号
 
-
 #Spring配置
 spring:
   profiles:
@@ -18,7 +17,6 @@ spring:
       username: ${sky.datasource.username}
       password: ${sky.datasource.password}
 
-
 #MyBatis配置
 mybatis:
   #mapper配置文件：编译后从target包下的mapper文件夹中找(编译前在resource下的mapper文件夹)
@@ -29,7 +27,6 @@ mybatis:
     #开启驼峰命名映射
     map-underscore-to-camel-case: true
 
-
 #日志配置
 logging:
   level:
@@ -38,7 +35,6 @@ logging:
         mapper: debug
         service: info
         controller: info
-
 
 #自定义的sky项配置，用于配置JWT令牌，将在JWT令牌配置属性类JwtProperties中利用注解@ConfigurationProperties(prefix = "sky.jwt")赋给该类对象的各个同名属性
 sky:
@@ -49,7 +45,7 @@ sky:
     admin-ttl: 7200000 #2小时
     # 设置前端传递过来的令牌名称
     admin-token-name: token
-  #阿里云OSS配置↓
+  #阿里云OSS配置
   alioss:
     access-key-id: ${sky.alioss.access-key-id}
     access-key-secret: ${sky.alioss.access-key-secret}

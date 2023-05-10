@@ -48,4 +48,12 @@ public interface CategoryService {
      * @return List<Category>
      */
     List<Category> list(Category category);
+
+    /**
+     * 根据分类id启用/禁用分类
+     *
+     * @param status 状态：启用1，禁用0
+     * @param id 分类id
+     */
+    void toggleStatus(Integer status, Long id);
 }

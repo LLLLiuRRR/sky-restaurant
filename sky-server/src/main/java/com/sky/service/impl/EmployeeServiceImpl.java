@@ -25,6 +25,9 @@ import org.springframework.util.DigestUtils;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
+/**
+ * 员工管理业务实现
+ */
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 

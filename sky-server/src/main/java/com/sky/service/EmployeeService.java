@@ -6,6 +6,9 @@ import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 import com.sky.result.PageResult;
 
+/**
+ * 员工管理业务接口
+ */
 public interface EmployeeService {
 
     /**

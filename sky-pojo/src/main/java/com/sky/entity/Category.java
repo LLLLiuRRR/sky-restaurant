@@ -1,5 +1,7 @@
 package com.sky.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel("分类实体")
 public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -18,6 +21,7 @@ public class Category implements Serializable {
     private Long id;
 
     //类型: 1菜品分类 2套餐分类
+    @ApiModelProperty("分类的类型")
     private Integer type;
 
     //分类名称

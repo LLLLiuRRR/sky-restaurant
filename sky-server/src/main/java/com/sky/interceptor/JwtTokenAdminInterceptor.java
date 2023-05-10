@@ -1,6 +1,7 @@
 package com.sky.interceptor;
 
 import com.sky.constant.JwtClaimsConstant;
+import com.sky.context.BaseContext;
 import com.sky.properties.JwtProperties;
 import com.sky.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,18 +21,20 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class JwtTokenAdminInterceptor implements HandlerInterceptor {
 
+    //注入JWT配置类JwtProperties以获取各项配置信息(该配置类本身通过@ConfigurationProperties注解从yml文件中读取配置值)
     @Autowired
     private JwtProperties jwtProperties;
 
     /**
      * 校验jwt
      *
-     * @param request
-     * @param response
-     * @param handler
-     * @return
-     * @throws Exception
+     * @param request  前端http请求头
+     * @param response 前端http响应体
+     * @param handler  略
+     * @return true:放行 false:拒绝
+     * @throws Exception 异常
      */
+    @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //判断当前拦截到的是Controller的方法还是其他资源
         if (!(handler instanceof HandlerMethod)) {
@@ -43,16 +47,35 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
 
         //2、校验令牌
         try {
-            log.info("jwt校验:{}", token);
+            log.info("|> jwt校验:{}", token);
+            //若JWT令牌无效/过期，则下句解析JWT令牌三段中的中间段(有效载荷)调用parseJWT方法时将抛异常
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
+            //从上句获取的中间段claims里获取存储的员工id (claims实际是个Map集合，传入键"empId"来获取员工id)
             Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
-            log.info("当前员工id：{}", empId);
+            log.info("|> 当前员工id：{}", empId);
+            /* 把从JWT令牌中获取的员工id存入本次请求线程(Tomcat创建的)的ThreadLocal中，供后续使用(例如Service层补充id字段时) */
+            BaseContext.setCurrentId(empId);
             //3、通过，放行
             return true;
         } catch (Exception ex) {
-            //4、不通过，响应401状态码
+            //4、不通过，给前端响应401状态码
             response.setStatus(401);
             return false;
         }
+    }
+
+    /**
+     * 释放资源
+     * - 处理完请求后，回到拦截器的afterCompletion方法，正好可以用于清除ThreadLocal
+     *
+     * @param request 请求体
+     * @param response 响应体
+     * @param handler 略
+     * @param ex 略
+     * @throws Exception 异常
+     */
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        BaseContext.removeCurrentId();
     }
 }

@@ -1,26 +1,36 @@
+#服务器配置
 server:
-  port: 8080
+  port: 8080 #SpringBoot内置Tomcat服务器端口号
 
+
+#Spring配置
 spring:
   profiles:
-    active: dev
+    active: dev #激活的子配置文件：application-dev.yml
   main:
     allow-circular-references: true
+  #数据库配置
   datasource:
     druid:
+      #以下四项数据库配置引自子配置文件application-dev.yml
       driver-class-name: ${sky.datasource.driver-class-name}
       url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: ${sky.datasource.username}
       password: ${sky.datasource.password}
 
+
+#MyBatis配置
 mybatis:
-  #mapper配置文件
+  #mapper配置文件：编译后从target包下的mapper文件夹中找(编译前在resource下的mapper文件夹)
   mapper-locations: classpath:mapper/*.xml
+  #设置xml文件统一包扫描，SQL标签中的resultType实体类名从以下包中找，无需再写全类名
   type-aliases-package: com.sky.entity
   configuration:
-    #开启驼峰命名
+    #开启驼峰命名映射
     map-underscore-to-camel-case: true
 
+
+#日志配置
 logging:
   level:
     com:
@@ -29,6 +39,8 @@ logging:
         service: info
         controller: info
 
+
+#自定义的sky项配置，用于配置JWT令牌，将在JWT令牌配置属性类JwtProperties中利用注解@ConfigurationProperties(prefix = "sky.jwt")赋给该类对象的各个同名属性
 sky:
   jwt:
     # 设置jwt签名加密时使用的秘钥

@@ -4,7 +4,6 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
-import com.sky.context.BaseContext;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
@@ -18,7 +17,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -43,8 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
         //准备Entity，补充字段
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO, category);
-        //TODO AOP
-
+        //补充公共字段//
         // 新菜品status默认为禁用(0)
         category.setStatus(StatusConstant.DISABLE);
         //持久层插入数据
@@ -98,8 +95,8 @@ public class CategoryServiceImpl implements CategoryService {
         //构建Entity
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO, category);
-        //补全字段
-        //TODO AOP
+        //补充公共字段//
+        //插入数据
         categoryMapper.update(category);
     }
 
@@ -118,7 +115,7 @@ public class CategoryServiceImpl implements CategoryService {
      * 根据分类id启用/禁用分类
      *
      * @param status 状态：启用1，禁用0
-     * @param id 分类id
+     * @param id     分类id
      */
     @Override
     public void toggleStatus(Integer status, Long id) {
@@ -126,8 +123,8 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = Category.builder()
                 .id(id)
                 .status(status)
-                .updateUser(BaseContext.getCurrentId())
-                .updateTime(LocalDateTime.now())
+                //.updateUser(BaseContext.getCurrentId())
+                //.updateTime(LocalDateTime.now())
                 .build();
         categoryMapper.update(category);
     }

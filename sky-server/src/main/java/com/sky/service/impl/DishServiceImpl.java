@@ -42,18 +42,15 @@ public class DishServiceImpl implements DishService {
      *
      * @param dishDTO DTO
      */
-    @Transactional
     @Override
+    @Transactional
     public void add(DishDTO dishDTO) {
         //1-向菜品表插入1条数据
         Dish dish = new Dish();
         BeanUtils.copyProperties(dishDTO, dish);
-        //补充公共字段
+        //补充公共字段//
         // 菜品默认启售
         dish.setStatus(StatusConstant.ENABLE);
-
-        // TODO AOP
-
         //插入数据
         dishMapper.insert(dish);
         //!后续dish_flavor插入数据时需要这里返回生成的主键赋给dish，故xml标签加上useGeneratedKeys="true" keyProperty="id"
@@ -165,8 +162,9 @@ public class DishServiceImpl implements DishService {
         //3、更新菜品表，根据id修改数据
         Dish dish = new Dish();
         BeanUtils.copyProperties(dishDTO, dish);
-        dish.setUpdateTime(LocalDateTime.now());
-        dish.setUpdateUser(BaseContext.getCurrentId());
+        // 补充公共字段
+        //dish.setUpdateTime(LocalDateTime.now());
+        //dish.setUpdateUser(BaseContext.getCurrentId());
         dishMapper.update(dish);
     }
 
@@ -181,8 +179,8 @@ public class DishServiceImpl implements DishService {
         Dish dish = Dish.builder()
                 .id(id)
                 .status(status)
-                .updateTime(LocalDateTime.now())
-                .updateUser(BaseContext.getCurrentId())
+                //.updateTime(LocalDateTime.now())
+                //.updateUser(BaseContext.getCurrentId())
                 .build();
         dishMapper.update(dish);
     }
@@ -201,5 +199,4 @@ public class DishServiceImpl implements DishService {
                         .build()
         );
     }
-
 }

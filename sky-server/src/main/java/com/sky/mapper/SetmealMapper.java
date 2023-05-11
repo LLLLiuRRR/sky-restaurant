@@ -1,8 +1,10 @@
 package com.sky.mapper;
 
 import com.github.pagehelper.Page;
+import com.sky.annotation.AutoFill;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
+import com.sky.enumeration.OperationType;
 import com.sky.vo.SetmealVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,6 +18,7 @@ public interface SetmealMapper {
      *
      * @param setmeal 套餐Entity
      */
+    @AutoFill(value = OperationType.INSERT) //AOP自动填充4个公共字段
     void insert(Setmeal setmeal);
 
     /**
@@ -50,6 +53,7 @@ public interface SetmealMapper {
      *
      * @param setmeal 套餐实体
      */
+    @AutoFill(value = OperationType.UPDATE) //AOP自动填充2个公共字段
     void update(Setmeal setmeal);
 
 //    /**

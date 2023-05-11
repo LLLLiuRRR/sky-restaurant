@@ -1,8 +1,10 @@
 package com.sky.mapper;
 
 import com.github.pagehelper.Page;
+import com.sky.annotation.AutoFill;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
+import com.sky.enumeration.OperationType;
 import com.sky.vo.DishVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,6 +20,7 @@ public interface DishMapper {
      *
      * @param dish 菜品
      */
+    @AutoFill(value = OperationType.INSERT) //AOP自动填充4个公共字段
     void insert(Dish dish);
 
     /**
@@ -50,6 +53,7 @@ public interface DishMapper {
      *
      * @param dish 菜品Entity
      */
+    @AutoFill(value = OperationType.UPDATE) //AOP自动填充2个公共字段
     void update(Dish dish);
 
     /**

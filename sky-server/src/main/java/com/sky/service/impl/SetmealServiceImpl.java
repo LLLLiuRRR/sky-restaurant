@@ -52,7 +52,7 @@ public class SetmealServiceImpl implements SetmealService {
         //1-向套餐表dish插入一条数据
         Setmeal setmeal = new Setmeal();
         BeanUtils.copyProperties(setmealDTO, setmeal);
-        // TODO AOP补充公共字段
+        //补充公共字段//
         setmealMapper.insert(setmeal);
         // 主键返回备用
         Long setmealId = setmeal.getId();
@@ -140,8 +140,8 @@ public class SetmealServiceImpl implements SetmealService {
         //构造Entity：拷贝DTO属性，添加公共字段
         Setmeal setmeal = new Setmeal();
         BeanUtils.copyProperties(setmealDTO, setmeal);
-        setmeal.setUpdateTime(LocalDateTime.now());
-        setmeal.setUpdateUser(BaseContext.getCurrentId());
+        //setmeal.setUpdateTime(LocalDateTime.now());
+        //setmeal.setUpdateUser(BaseContext.getCurrentId());
 
         //1、修改套餐表，执行update
         setmealMapper.update(setmeal);
@@ -200,8 +200,8 @@ public class SetmealServiceImpl implements SetmealService {
         Setmeal setmeal = Setmeal.builder()
                 .id(id)
                 .status(status)
-                .updateTime(LocalDateTime.now())
-                .updateUser(BaseContext.getCurrentId())
+                //.updateTime(LocalDateTime.now())
+                //.updateUser(BaseContext.getCurrentId())
                 .build();
         setmealMapper.update(setmeal);
     }

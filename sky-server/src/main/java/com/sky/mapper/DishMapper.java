@@ -68,4 +68,16 @@ public interface DishMapper {
      * @return List<Dish>
      */
     List<Dish> select(Dish dish);
+
+    /**
+     * 根据套餐id查询菜品
+     * - 使用场景：SetmealServiceImpl中setStatus方法，启用套餐时须判断旗下关联菜品是否有被禁用的，
+     * -    需要根据套餐id查询菜品，获得菜品的status
+     * - 注意SQL用的LEFT JOIN保证所有菜品都cover
+     *
+     * @param setmealId 套餐id
+     * @return List of Dish, size could be zero, 因为菜品可能没有套餐与之关联
+     */
+    @Select("SELECT d.* FROM dish d LEFT JOIN setmeal_dish sd ON d.id = sd.dish_id WHERE sd.setmeal_id = #{setmeadId}")
+    List<Dish> getBySetmealId(Long setmealId);
 }
